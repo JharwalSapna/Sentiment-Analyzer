@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analyzer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="9" cy="9" r="1.5" fill="currentColor"/>
+                        <circle cx="15" cy="9" r="1.5" fill="currentColor"/>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>Sentiment Analyzer</h1>
+                    <span class="subtitle">NLP-Powered Emotion Detection</span>
+                </div>
+            </div>
+            <div class="header-badge">
+                <span class="badge">BITS Pilani • M.Tech AIML</span>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="input-section">
+                <div class="card input-card">
+                    <div class="card-header">
+                        <h2>📝 Enter Your Text</h2>
+                        <p>Type or paste text to analyze its sentiment</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="textarea-wrapper">
+                            <textarea id="textInput" placeholder="Enter your text here..." rows="6"></textarea>
+                            <div class="char-count"><span id="charCount">0</span> characters</div>
+                        </div>
+                        <div class="divider"><span>OR</span></div>
+                        <div class="file-upload-area" id="dropZone">
+                            <input type="file" id="fileInput" accept=".txt,.csv" hidden>
+                            <div class="upload-content">
+                                <p>📁 Drag & drop a text file here</p>
+                                <span>or click to browse</span>
+                            </div>
+                            <div id="fileName" class="file-name hidden"></div>
+                        </div>
+                        <button class="analyze-btn" id="analyzeBtn">
+                            <span class="btn-text">🔍 Analyze Sentiment</span>
+                            <span class="btn-loader hidden"><span class="spinner"></span></span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="results-section" id="resultsSection">
+                <div class="card results-card">
+                    <div class="card-header">
+                        <h2>📊 Analysis Results</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="sentiment-display" id="sentimentDisplay">
+                            <div class="sentiment-emoji" id="sentimentEmoji">🤔</div>
+                            <div class="sentiment-label" id="sentimentLabel">Analyzing...</div>
+                            <div class="confidence-badge" id="confidenceBadge">
+                                <span class="confidence-value" id="confidenceValue">0</span>% Confidence
+                            </div>
+                        </div>
+                        <div class="scores-container">
+                            <h3>Sentiment Breakdown</h3>
+                            <div class="score-bars">
+                                <div class="score-bar-item positive">
+                                    <div class="score-label"><span>😊</span><span>Positive</span></div>
+                                    <div class="score-bar-wrapper">
+                                        <div class="score-bar" id="positiveBar"><div class="score-fill"></div></div>
+                                        <span class="score-value" id="positiveValue">0%</span>
+                                    </div>
+                                </div>
+                                <div class="score-bar-item neutral">
+                                    <div class="score-label"><span>😐</span><span>Neutral</span></div>
+                                    <div class="score-bar-wrapper">
+                                        <div class="score-bar" id="neutralBar"><div class="score-fill"></div></div>
+                                        <span class="score-value" id="neutralValue">0%</span>
+                                    </div>
+                                </div>
+                                <div class="score-bar-item negative">
+                                    <div class="score-label"><span>😔</span><span>Negative</span></div>
+                                    <div class="score-bar-wrapper">
+                                        <div class="score-bar" id="negativeBar"><div class="score-fill"></div></div>
+                                        <span class="score-value" id="negativeValue">0%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="compound-score">
+                                <h4>Compound Score</h4>
+                                <div class="gauge-container">
+                                    <div class="gauge">
+                                        <div class="gauge-pointer" id="gaugePointer"></div>
+                                    </div>
+                                    <div class="gauge-labels"><span>-1</span><span>0</span><span>+1</span></div>
+                                </div>
+                                <div class="compound-value" id="compoundValue">0.00</div>
+                            </div>
+                        </div>
+                        <div class="preprocessing-info" id="preprocessingInfo">
+                            <h3>Text Preprocessing</h3>
+                            <div class="preprocessing-stats">
+                                <div class="stat-item"><span class="stat-label">Original Length</span><span class="stat-value" id="originalLength">0</span></div>
+                                <div class="stat-item"><span class="stat-label">Token Count</span><span class="stat-value" id="tokenCount">0</span></div>
+                            </div>
+                            <div class="tokens-preview">
+                                <span class="tokens-label">Lemmatized Tokens:</span>
+                                <div class="tokens-list" id="lemmatizedList"></div>
+                            </div>
+                            <div class="tokens-preview" style="margin-top: 1rem;">
+                                <span class="tokens-label">Stemmed Tokens:</span>
+                                <div class="tokens-list" id="stemmedList"></div>
+                            </div>
+                        </div>
+                        <div class="sentence-analysis" id="sentenceAnalysis">
+                            <h3>Sentence Analysis</h3>
+                            <div class="sentences-list" id="sentencesList"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer"></footer>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

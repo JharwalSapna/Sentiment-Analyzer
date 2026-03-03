@@ -1,0 +1,20 @@
+lib/
+__pycache__/
+Deliverables_Summary.md
+Literature_Survey.md
+Task_B_Enhancement_Plan.md
+convert_md_to_pdf.py
+
+Deliverables_Summary.pdf
+Literature_Survey.pdf
+Task_B_Enhancement_Plan.pdf
+Assignment-2_PS8.pdf
+
+# macOS system files
+.DS_Store
+**/.DS_Store
+
+# virtual lab screenshots
+screenshots/virtual_lab-1.png
+screenshots/virtual_lab-2.png
+screenshots/virtual_lab-3.png
